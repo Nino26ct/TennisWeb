@@ -1,0 +1,588 @@
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap");
+
+body {
+  background-color: rgb(156, 151, 151);
+  margin: 0; /* Rimuove margini esterni */
+  padding: 0; /* Rimuove padding interno */
+  overflow-x: hidden;
+  width: 100%;
+}
+#sezione-punti {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  height: 50vh;
+  margin: auto;
+  background-color: rgb(210, 105, 30);
+  border: 5px solid white;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.linea-centrale {
+  position: absolute;
+  width: 1px; /* Larghezza della linea */
+  height: 100%; /* Altezza della linea */
+  background-color: white; /* Colore della linea */
+  top: 0;
+  left: 50%; /* Posiziona la linea al centro */
+  transform: translateX(-50%);
+  z-index: 1; /* Assicurati che sia sotto i bottoni */
+}
+
+.sezione-punti p {
+  display: none;
+}
+
+hr {
+  border: 2px solid white;
+}
+
+.btn-player1,
+.btn-player2,
+.btn-erroreP1,
+.btn-erroreP2 {
+  position: absolute;
+  width: 120px;
+  height: 50px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: clamp(12px, 1vw, 25px);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.btn-player1 {
+  background-color: #21c44f;
+  /* background: linear-gradient(145deg, #000000, #000000); */
+  border: 2px solid #d1d1d1;
+  border-radius: 8px;
+  box-shadow: 4px 4px 8px #000000, -4px -4px 8px #000000;
+  color: #333;
+  font-size: clamp(12px, 0.5vw, 25px);
+  font-weight: bold;
+  /* padding: 10px 20px; */
+  transition: all 0.2s ease;
+  cursor: pointer;
+  top: 30%;
+  left: 25%;
+  transform: translate(-50%, -50%);
+}
+.btn-player1:active {
+  box-shadow: inset 4px 4px 8px #000000, inset -4px -4px 8px #000000;
+  /* transform: translateY(2px); */
+}
+
+.btn-erroreP1 {
+  background-color: red;
+  /* background: linear-gradient(145deg, #000000, #000000); */
+  border: 2px solid #d1d1d1;
+  border-radius: 8px;
+  box-shadow: 4px 4px 8px #000000, -4px -4px 8px #000000;
+  color: #333;
+  font-size: clamp(12px, 0.5vw, 25px);
+  font-weight: bold;
+  /* padding: 10px 20px; */
+  transition: all 0.2s ease;
+  cursor: pointer;
+  top: 60%;
+  left: 25%;
+  transform: translate(-50%, -50%);
+}
+.btn-erroreP1:active {
+  box-shadow: inset 4px 4px 8px #000000, inset -4px -4px 8px #000000;
+  /* transform: translateY(2px); */
+}
+
+.btn-player2 {
+  background-color: #21c44f;
+  border: 2px solid #d1d1d1;
+  border-radius: 8px;
+  box-shadow: 4px 4px 8px #000000, -4px -4px 8px #000000;
+  color: #333;
+  font-size: clamp(12px, 1vw, 25px);
+  font-weight: bold;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  top: 30%;
+  right: 25%;
+  transform: translate(50%, -50%);
+}
+.btn-player2:active {
+  box-shadow: inset 4px 4px 8px #000000, inset -4px -4px 8px #000000;
+  /* transform: translateY(2px); */
+}
+
+.btn-erroreP2 {
+  background-color: red;
+  border: 2px solid #d1d1d1;
+  border-radius: 8px;
+  box-shadow: 4px 4px 8px #000000, -4px -4px 8px #000000;
+  color: #333;
+  font-size: clamp(12px, 1vw, 25px);
+  font-weight: bold;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  top: 60%;
+  right: 25%;
+  transform: translate(50%, -50%);
+}
+.btn-erroreP2:active {
+  box-shadow: inset 4px 4px 8px #000000, inset -4px -4px 8px #000000;
+  /* transform: translateY(2px); */
+}
+
+.btn-aceP1,
+.btn-aceP2,
+.btn-FalloP1,
+.btn-FalloP2,
+.btn-DoppioFalloP1,
+.btn-DoppioFalloP2 {
+  position: absolute;
+  width: 80px;
+  height: 40px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: clamp(12px, 0.5vw, 25px);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  color: #333;
+}
+
+.btn-aceP1 {
+  /* color: white; */
+  background-color: #21c44f;
+  top: 0;
+  left: 0;
+  margin: 0; /* Rimuove eventuali margini */
+}
+
+.btn-aceP2 {
+  /* color: white; */
+  background-color: #21c44f;
+  top: 0;
+  right: 0;
+  margin: 0; /* Rimuove eventuali margini */
+}
+
+.btn-FalloP1,
+.btn-DoppioFalloP1 {
+  background-color: red;
+  top: 0;
+  left: 95px;
+  margin: 0; /* Rimuove eventuali margini */
+}
+
+.btn-FalloP2,
+.btn-DoppioFalloP2 {
+  background-color: red;
+  top: 0;
+  right: 95px;
+  margin: 0; /* Rimuove eventuali margini */
+}
+
+.btn-newPartita {
+  /* position: absolute; */
+  /* bottom: 10px;
+  right: 10px; */
+  margin-left: 0px;
+  margin-top: 15px;
+  padding: 10px 15px;
+  font-size: 15px;
+  font-weight: bold;
+  background-color: #000000;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#mostraNascondiCamera {
+  padding: 10px 20px;
+  background-color: #444040;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 7px;
+}
+
+#camera-section {
+  text-align: center;
+  /* background: #fff; */
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#camera-container.hidden {
+  display: none;
+}
+
+#camera-view {
+  width: 90%;
+  /* max-width: 600px; */
+  height: 50vh;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  background-color: black;
+  margin: 0;
+  object-fit: cover; /* Fa in modo che il video riempia tutto */
+}
+
+#camera-view.hidden {
+  display: none; /* Nasconde il video quando la classe "hidden" è applicata */
+}
+
+#start-camera {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+#start-camera.hidden {
+  display: none;
+}
+#stop-camera {
+  padding: 10px 20px;
+  background-color: rgba(210, 8, 8, 0.851);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+#stop-camera.hidden {
+  display: none;
+}
+
+#camera-error {
+  color: red;
+  font-size: 14px;
+}
+.nameMatch {
+  text-align: center;
+}
+
+.scoreboard {
+  font-family: "Orbitron", sans-serif;
+  color: #ffff00;
+  text-shadow: 0 0 10px #000000, 0 0 20px #000000, 0 0 30px #000000;
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  display: flex;
+  justify-content: space-evenly;
+  gap: 60px;
+}
+.scoreboard1 {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: flex-start;
+}
+.scoreboard2 {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.pSet {
+  position: absolute;
+  bottom: 0px;
+  left: 10px;
+  padding: 5px 10px;
+  font-size: 20px;
+}
+.pGame {
+  position: absolute;
+  bottom: 30px;
+  left: 10px;
+  padding: 5px 10px;
+  font-size: 20px;
+}
+
+/* Menu Hamburger */
+/* Contenitore del menu */
+.hamburger-menu {
+  position: fixed;
+  top: 10px;
+  /* left: 10px; */
+  z-index: 100;
+}
+
+/* Stile del bottone */
+#hamburger-btn {
+  font-size: 35px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: white;
+}
+
+/* Stile del menu */
+#menu {
+  position: absolute;
+  top: 40px;
+  left: 10px;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  width: 150px;
+  display: none; /* Nascondi di default */
+  border-radius: 10px;
+}
+
+/* Lista del menu */
+#menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#menu li {
+  margin: 10px 0;
+}
+
+#menu a {
+  text-decoration: none;
+  color: black;
+  font-size: 22px;
+}
+
+/* Classe per mostrare il menu */
+.show {
+  display: block !important;
+}
+
+#set-container {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  max-width: 800px;
+}
+
+.video-wrapper {
+  flex-basis: calc(
+    50% - 16px
+  ); /* Ogni elemento occuperà metà dello spazio, meno il gap */
+  display: flex;
+  flex-direction: column; /* Imposta la disposizione verticale */
+  align-items: center; /* Centra il contenuto */
+  max-width: 200px; /* Imposta una larghezza massima */
+}
+
+.video-wrapper a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: blue; /* Colore blu per l'icona */
+  font-size: 24px; /* Dimensione dell'icona */
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+#set-container video {
+  width: 200px; /* Occupa circa metà dello spazio disponibile */
+  max-width: 400px; /* Imposta una larghezza massima */
+  height: 130px; /* Mantiene le proporzioni */
+  border: 2px solid white;
+}
+
+#mostraNascondiVideo {
+  margin-left: 15px;
+  margin-top: 10px;
+  background-color: #007bff; /* Blu acceso */
+  color: white; /* Testo bianco */
+  font-size: 18px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+#sezione-punti,
+.scoreboard,
+.video-wrapper {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+@media screen and (orientation: landscape) {
+  #camera-view {
+    width: 90%;
+    /* max-width: 600px; */
+    height: 80vh;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    background-color: black;
+    margin: 0;
+    object-fit: cover; /* Fa in modo che il video riempia tutto */
+  }
+
+  #sezione-punti {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    height: 70vh;
+    margin: auto;
+    background-color: rgb(210, 105, 30);
+    border: 5px solid white;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .btn-player1,
+  .btn-player2,
+  .btn-erroreP1,
+  .btn-erroreP2 {
+    position: absolute;
+    width: 120px;
+    height: 40px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: clamp(12px, 1vw, 25px);
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+
+  .btn-player1 {
+    background-color: #21c44f;
+    /* background: linear-gradient(145deg, #000000, #000000); */
+    border: 2px solid #d1d1d1;
+    border-radius: 8px;
+    box-shadow: 4px 4px 8px #000000, -4px -4px 8px #000000;
+    color: #333;
+    font-size: clamp(12px, 0.5vw, 25px);
+    font-weight: bold;
+    /* padding: 10px 20px; */
+    transition: all 0.2s ease;
+    cursor: pointer;
+    top: 40%;
+    left: 25%;
+    transform: translate(-50%, -50%);
+  }
+  .btn-player1:active {
+    box-shadow: inset 4px 4px 8px #000000, inset -4px -4px 8px #000000;
+    /* transform: translateY(2px); */
+  }
+
+  .btn-erroreP1 {
+    background-color: red;
+    /* background: linear-gradient(145deg, #000000, #000000); */
+    border: 2px solid #d1d1d1;
+    border-radius: 8px;
+    box-shadow: 4px 4px 8px #000000, -4px -4px 8px #000000;
+    color: #333;
+    font-size: clamp(12px, 0.5vw, 25px);
+    font-weight: bold;
+    /* padding: 10px 20px; */
+    transition: all 0.2s ease;
+    cursor: pointer;
+    top: 80%;
+    left: 25%;
+    transform: translate(-50%, -50%);
+  }
+  .btn-erroreP1:active {
+    box-shadow: inset 4px 4px 8px #000000, inset -4px -4px 8px #000000;
+    /* transform: translateY(2px); */
+  }
+
+  .btn-player2 {
+    background-color: #21c44f;
+    border: 2px solid #d1d1d1;
+    border-radius: 8px;
+    box-shadow: 4px 4px 8px #000000, -4px -4px 8px #000000;
+    color: #333;
+    font-size: clamp(12px, 1vw, 25px);
+    font-weight: bold;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    top: 40%;
+    right: 25%;
+    transform: translate(50%, -50%);
+  }
+  .btn-player2:active {
+    box-shadow: inset 4px 4px 8px #000000, inset -4px -4px 8px #000000;
+    /* transform: translateY(2px); */
+  }
+
+  .btn-erroreP2 {
+    background-color: red;
+    border: 2px solid #d1d1d1;
+    border-radius: 8px;
+    box-shadow: 4px 4px 8px #000000, -4px -4px 8px #000000;
+    color: #333;
+    font-size: clamp(12px, 1vw, 25px);
+    font-weight: bold;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    top: 80%;
+    right: 25%;
+    transform: translate(50%, -50%);
+  }
+  .btn-erroreP2:active {
+    box-shadow: inset 4px 4px 8px #000000, inset -4px -4px 8px #000000;
+    /* transform: translateY(2px); */
+  }
+
+  .btn-aceP1,
+  .btn-aceP2,
+  .btn-FalloP1,
+  .btn-FalloP2,
+  .btn-DoppioFalloP1,
+  .btn-DoppioFalloP2 {
+    position: absolute;
+    width: 80px;
+    height: 30px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: clamp(12px, 0.5vw, 25px);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    color: #333;
+  }
+
+  .set-container {
+    display: flex;
+    flex-wrap: wrap; /* Consente di andare a capo quando necessario */
+    gap: 16px; /* Distanza tra le icone */
+    justify-content: space-around; /* Centra il contenuto orizzontalmente */
+  }
+
+  .video-wrapper {
+    flex-basis: calc(
+      25% - 16px
+    ); /* Ogni elemento occuperà un quarto dello spazio, meno il gap */
+    display: flex;
+    flex-direction: column; /* Imposta la disposizione verticale */
+    align-items: center; /* Centra il contenuto */
+    max-width: 200px; /* Imposta una larghezza massima */
+  }
+
+  .video-wrapper a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: blue; /* Colore blu per l'icona */
+    font-size: 24px; /* Dimensione dell'icona */
+  }
+
+  #set-container video {
+    width: 100%; /* Occupa tutta la larghezza disponibile */
+    height: 180px; /* Mantiene le proporzioni */
+    object-fit: cover; /* Fa in modo che il video occupi completamente l'area senza distorsioni */
+  }
+}
