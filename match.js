@@ -40,6 +40,8 @@ const tennisScores = [0, 15, 30, 40];
 
 let isGamePointPlayer1 = false;
 let isGamePointPlayer2 = false;
+let isDeuceGamePointPlayer1 = false;
+let isDeuceGamePointPlayer2 = false;
 
 window.onload = function () {
   loadMatchState();
@@ -82,6 +84,7 @@ function saveMatchState() {
     totalGames: totalGames,
     totalSet: totalSet,
     currentSetWins: totalSet,
+    sets: JSON.parse(localStorage.getItem("sets")) || [], // Aggiungi questa linea
   };
   localStorage.setItem("matchState", JSON.stringify(matchState));
 }
@@ -105,6 +108,8 @@ function loadMatchState() {
     tieBreakPointsPlayer2 = savedState.tieBreakPointsPlayer2;
     advantagePlayer = savedState.advantagePlayer;
     isTieBreak = savedState.isTieBreak;
+    totalGames = savedState.totalGames;
+    totalSet = savedState.totalSet;
 
     // Chiamate per aggiornare le interfacce utente
     updateScoreDisplay();
@@ -230,10 +235,30 @@ function updateScore(player) {
       // Deuce (40-40)
       if (advantagePlayer === null) {
         advantagePlayer = player;
-      } else if (advantagePlayer === player) {
-        showWinningPoint(player);
-      } else {
-        advantagePlayer = null;
+      } else if (advantagePlayer === 1) {
+        // Se il giocatore 1 ha il vantaggio e fa punto, vince
+        if (player === 1) {
+          isDeuceGamePointPlayer1 = true;
+          isDeuceGamePointPlayer2 = false;
+          showWinningPoint(1);
+        } else {
+          // Se il giocatore 2 fa punto, si torna a deuce
+          advantagePlayer = null;
+          isDeuceGamePointPlayer1 = false;
+          isDeuceGamePointPlayer2 = false;
+        }
+      } else if (advantagePlayer === 2) {
+        // Se il giocatore 2 ha il vantaggio e fa punto, vince
+        if (player === 2) {
+          isDeuceGamePointPlayer2 = true;
+          isDeuceGamePointPlayer1 = false;
+          showWinningPoint(2);
+        } else {
+          // Se il giocatore 1 fa punto, si torna a deuce
+          advantagePlayer = null;
+          isDeuceGamePointPlayer1 = false;
+          isDeuceGamePointPlayer2 = false;
+        }
       }
       saveMatchState();
     } else {
@@ -285,35 +310,43 @@ function updateScoreDisplay() {
   } else {
     if (scorePlayer1 === 3 && scorePlayer2 === 3) {
       // Deuce
-      scoreDisplayPlayer1.textContent = advantagePlayer === 1 ? "Adv" : "40";
-      scoreDisplayPlayer2.textContent = advantagePlayer === 2 ? "Adv" : "40";
-      isGamePointPlayer1 = false;
-      isGamePointPlayer2 = false;
-    } else if (advantagePlayer === 1 && isGamePointPlayer1 === true) {
-      // Player 1 has advantage
-      scoreDisplayPlayer1.textContent = "Game Point";
+      if (advantagePlayer === 1) {
+        scoreDisplayPlayer1.textContent = "Adv";
+        scoreDisplayPlayer2.textContent = "40";
+      } else if (advantagePlayer === 2) {
+        scoreDisplayPlayer1.textContent = "40";
+        scoreDisplayPlayer2.textContent = "Adv";
+      } else {
+        scoreDisplayPlayer1.textContent = "40";
+        scoreDisplayPlayer2.textContent = "40";
+      }
+    } else if (isDeuceGamePointPlayer1) {
+      // Game Point speciale per deuce (Player 1)
+      scoreDisplayPlayer1.textContent = "Game Point (Deuce)";
       scoreDisplayPlayer2.textContent = "40";
       setTimeout(() => {
         showWinningPoint(1);
       }, 500);
-    } else if (advantagePlayer === 2 && isGamePointPlayer2 === true) {
-      // Player 2 has advantage
+    } else if (isDeuceGamePointPlayer2) {
+      // Game Point speciale per deuce (Player 2)
+      scoreDisplayPlayer2.textContent = "Game Point (Deuce)";
       scoreDisplayPlayer1.textContent = "40";
-      scoreDisplayPlayer2.textContent = "Game Point";
       setTimeout(() => {
-        showWinningPoint(1);
+        showWinningPoint(2);
       }, 500);
     } else if (isGamePointPlayer1) {
-      // Mostra "Game Point" e cambia game dopo 1 secondo
+      // Game Point normale (senza deuce)
       scoreDisplayPlayer1.textContent = "Game Point";
       scoreDisplayPlayer2.textContent = tennisScores[scorePlayer2];
+
       setTimeout(() => {
         showWinningPoint(1);
       }, 500);
     } else if (isGamePointPlayer2) {
-      // Mostra "Game Point" e cambia game dopo 1 secondo
+      // Game Point normale (senza deuce)
       scoreDisplayPlayer2.textContent = "Game Point";
       scoreDisplayPlayer1.textContent = tennisScores[scorePlayer1];
+
       setTimeout(() => {
         showWinningPoint(2);
       }, 500);
@@ -343,6 +376,8 @@ function incrementGame(player) {
   // Resetta lo stato del Game Point per il nuovo game
   isGamePointPlayer1 = false;
   isGamePointPlayer2 = false;
+  isDeuceGamePointPlayer1 = false;
+  isDeuceGamePointPlayer2 = false;
   advantagePlayer = null;
 
   const currentGameCount1 = parseInt(winGame1.textContent, 10);
@@ -435,7 +470,11 @@ function checkSetWinner(player) {
 }
 
 // Funzione per terminare la partita
-function endMatch(winnerName) {
+function endMatch(winnerName, fromLoad = false) {
+  if (!fromLoad && localStorage.getItem("matchFinished") === "true") {
+    return; // Evita di salvare la partita più volte
+  }
+
   localStorage.setItem("matchFinished", "true");
   localStorage.setItem("winner", winnerName); // Salviamo il vincitore
 
@@ -447,8 +486,14 @@ function endMatch(winnerName) {
     button.disabled = true;
   });
 
-  // Crea il messaggio "Fine Partita"
-  const endMessage = document.createElement("div");
+  // Se il messaggio di fine partita non esiste già, lo crea
+  let endMessage = document.getElementById("endMessage");
+  if (!endMessage) {
+    endMessage = document.createElement("div");
+    endMessage.id = "endMessage";
+    document.body.appendChild(endMessage);
+  }
+
   endMessage.textContent = `Fine Partita - ${winnerName} ha vinto!`;
   endMessage.style.position = "fixed";
   endMessage.style.top = "50%";
@@ -459,7 +504,11 @@ function endMatch(winnerName) {
   endMessage.style.padding = "20px";
   endMessage.style.fontSize = "24px";
   endMessage.style.zIndex = "1000";
-  document.body.appendChild(endMessage);
+
+  // Salva lo stato della partita finita solo la prima volta
+  if (!fromLoad) {
+    saveFinishedMatch();
+  }
 }
 
 // Quando la pagina viene caricata, controlla se la partita è finita
@@ -468,23 +517,31 @@ window.addEventListener("DOMContentLoaded", () => {
   const winner = localStorage.getItem("winner");
 
   if (matchFinished === "true" && winner) {
-    endMatch(winner); // Ricrea il messaggio di fine partita
+    endMatch(winner, true); // Ripristina il messaggio di fine partita e disabilita i pulsanti
   }
 });
+
 // Funzione per incrementare il set
 function incrementSet(player, maxSets, matchSettings) {
   const setsToWin = Math.ceil(maxSets / 2);
+  const currentSet = {
+    player1Games: parseInt(winGame1.textContent, 10),
+    player2Games: parseInt(winGame2.textContent, 10),
+  };
+
+  let sets = JSON.parse(localStorage.getItem("sets")) || [];
+  sets.push(currentSet);
+  localStorage.setItem("sets", JSON.stringify(sets));
+
   if (player === 1) {
     let currentSetWins = parseInt(winSet1.textContent, 10);
     currentSetWins++;
     winSet1.textContent = currentSetWins;
 
     if (currentSetWins === setsToWin) {
-      // alert(`${matchSettings.nameP1} ha vinto la partita!`);
       totalGames = "Match Point";
       endMatch(matchSettings.nameP1);
       resetAll();
-      // localStorage.removeItem("gameInProgress");
     } else {
       totalGames = 1;
       totalSet++;
@@ -496,11 +553,9 @@ function incrementSet(player, maxSets, matchSettings) {
     winSet2.textContent = currentSetWins;
 
     if (currentSetWins === setsToWin) {
-      // alert(`${matchSettings.nameP2} ha vinto la partita!`);
       totalGames = "Match Point";
-      endMatch(matchSettings.nameP1);
+      endMatch(matchSettings.nameP2);
       resetAll();
-      // localStorage.removeItem("gameInProgress");
     } else {
       totalGames = 1;
       totalSet++;
@@ -508,7 +563,6 @@ function incrementSet(player, maxSets, matchSettings) {
     }
   }
 }
-
 // Funzione per resettare il punteggio
 function resetGameAndPoints() {
   scorePlayer1 = 0;
@@ -577,9 +631,41 @@ doubleFaultBtn2.addEventListener("click", () => updateScore(1));
 linkImp.addEventListener("click", () => {
   localStorage.setItem("gameInProgress", "false");
 }); // Imposta a false per indicare che la partita non è in corso})
+// Funzione per salvare lo stato della partita finita
+function saveFinishedMatch() {
+  const finishedMatchState = {
+    scorePlayer1: scorePlayer1,
+    scorePlayer2: scorePlayer2,
+    winGame1: winGame1.textContent,
+    winGame2: winGame2.textContent,
+    winSet1: winSet1.textContent,
+    winSet2: winSet2.textContent,
+    acePointPlayer1: acePointPlayer1,
+    acePointPlayer2: acePointPlayer2,
+    falloPointPlayer1: falloPointPlayer1,
+    falloPointPlayer2: falloPointPlayer2,
+    tieBreakPointsPlayer1: tieBreakPointsPlayer1,
+    tieBreakPointsPlayer2: tieBreakPointsPlayer2,
+    advantagePlayer: advantagePlayer,
+    isTieBreak: isTieBreak,
+    totalGames: totalGames,
+    totalSet: totalSet,
+    sets: JSON.parse(localStorage.getItem("sets")) || [],
+    winner: localStorage.getItem("winner"),
+    matchSettings: matchSettings,
+  };
+  const finishedMatches =
+    JSON.parse(localStorage.getItem("finishedMatches")) || [];
+  finishedMatches.push(finishedMatchState);
+  localStorage.setItem("finishedMatches", JSON.stringify(finishedMatches));
+}
 
 // Ascoltatore per iniziare una nuova partita
 newMatch.addEventListener("click", () => {
+  // Genera un identificatore univoco per la nuova partita
+  const matchId = Date.now().toString();
+  localStorage.setItem("currentMatchId", matchId);
+
   // 1. Reset dei punteggi e delle variabili
   scorePlayer1 = 0;
   scorePlayer2 = 0;
@@ -603,6 +689,10 @@ newMatch.addEventListener("click", () => {
   tieBreakPointsPlayer1 = 0;
   tieBreakPointsPlayer2 = 0;
   advantagePlayer = null;
+  isDeuceGamePointPlayer1 = false;
+  isDeuceGamePointPlayer2 = false;
+  isGamePointPlayer1 = false;
+  isGamePointPlayer2 = false;
 
   totalGames = 1;
   totalSet = 1;
@@ -611,9 +701,11 @@ newMatch.addEventListener("click", () => {
   localStorage.setItem("gameInProgress", "false"); // Imposta a false per indicare che la partita non è in corso
   localStorage.removeItem("matchState");
   localStorage.removeItem("matchFinished");
+  localStorage.removeItem("sets");
+  localStorage.removeItem("winner");
 
   // 3. Cancella i video da IndexedDB
-  deleteAllVideos();
+  deleteAllVideos(matchId);
 
   // 4. Ricarica la pagina per iniziare una nuova partita
   window.location.href = "index.html"; // Assicurati che questa sia la pagina di partenza
@@ -623,7 +715,6 @@ newMatch.addEventListener("click", () => {
 const matchSettings = JSON.parse(localStorage.getItem("matchSettings"));
 
 if (matchSettings) {
-  // console.log("Impostazioni partita:", matchSettings);
   // Usa questi dati nella logica della partita
   const { nameMatch, nameP1, nameP2, gameCount, setCount } = matchSettings;
 
