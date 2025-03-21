@@ -235,12 +235,12 @@ function updateScore(player) {
     updateTieBreakDisplay();
 
     if (
-      tieBreakPointsPlayer1 >= 7 &&
+      tieBreakPointsPlayer1 >= matchSettings.tieBreak &&
       tieBreakPointsPlayer1 - tieBreakPointsPlayer2 >= 2
     ) {
       endTieBreak(1);
     } else if (
-      tieBreakPointsPlayer2 >= 7 &&
+      tieBreakPointsPlayer2 >= matchSettings.tieBreak &&
       tieBreakPointsPlayer2 - tieBreakPointsPlayer1 >= 2
     ) {
       endTieBreak(2);
@@ -630,18 +630,58 @@ function resetAll() {
 
 // Ascoltatori eventi per i bottoni dei giocatori
 
-//player1
-btnPlayer1.addEventListener("click", () => updateScore(1));
-btnErrorPlayer1.addEventListener("click", () => updateScore(2));
-btnAce1.addEventListener("click", () => updateScore(1));
-btnAce1.addEventListener("click", () => updateScoreAce(1));
-doubleFaultBtn1.addEventListener("click", () => updateScore(2));
+// Funzione per disabilitare temporaneamente i bottoni del punteggio
+function disableButtonsTemporarily() {
+  const buttons = document.querySelectorAll(
+    ".btn-player1, .btn-erroreP1, .btn-aceP1, .btn-FalloP1, .btn-player2, .btn-erroreP2, .btn-aceP2, .btn-FalloP2"
+  );
+  buttons.forEach((button) => {
+    button.disabled = true;
+  });
+
+  setTimeout(() => {
+    buttons.forEach((button) => {
+      button.disabled = false;
+    });
+  }, 1000); // 1000 millisecondi = 1 secondo
+}
+
+btnPlayer1.addEventListener("click", () => {
+  updateScore(1);
+  disableButtonsTemporarily();
+});
+btnErrorPlayer1.addEventListener("click", () => {
+  updateScore(2);
+  disableButtonsTemporarily();
+});
+btnAce1.addEventListener("click", () => {
+  updateScore(1);
+  updateScoreAce(1);
+  disableButtonsTemporarily();
+});
+doubleFaultBtn1.addEventListener("click", () => {
+  updateScore(2);
+  disableButtonsTemporarily();
+});
+
 //player2
-btnPlayer2.addEventListener("click", () => updateScore(2));
-btnErrorPlayer2.addEventListener("click", () => updateScore(1));
-btnAce2.addEventListener("click", () => updateScore(2));
-btnAce2.addEventListener("click", () => updateScoreAce(2));
-doubleFaultBtn2.addEventListener("click", () => updateScore(1));
+btnPlayer2.addEventListener("click", () => {
+  updateScore(2);
+  disableButtonsTemporarily();
+});
+btnErrorPlayer2.addEventListener("click", () => {
+  updateScore(1);
+  disableButtonsTemporarily();
+});
+btnAce2.addEventListener("click", () => {
+  updateScore(2);
+  updateScoreAce(2);
+  disableButtonsTemporarily();
+});
+doubleFaultBtn2.addEventListener("click", () => {
+  updateScore(1);
+  disableButtonsTemporarily();
+});
 
 linkImp.addEventListener("click", () => {
   localStorage.setItem("gameInProgress", "false");
@@ -718,6 +758,7 @@ newMatch.addEventListener("click", () => {
   localStorage.removeItem("matchFinished");
   localStorage.removeItem("sets");
   localStorage.removeItem("winner");
+  localStorage.removeItem("matchSettings");
 
   // 3. Cancella i video da IndexedDB
   deleteAllVideos(matchId);
@@ -731,7 +772,8 @@ const matchSettings = JSON.parse(localStorage.getItem("matchSettings"));
 
 if (matchSettings) {
   // Usa questi dati nella logica della partita
-  const { nameMatch, nameP1, nameP2, gameCount, setCount } = matchSettings;
+  const { nameMatch, nameP1, nameP2, gameCount, setCount, tieBreak } =
+    matchSettings;
 
   // Puoi aggiornare il display con i nomi
   document.querySelector(".nameMatch").textContent = nameMatch;
