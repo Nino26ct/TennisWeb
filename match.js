@@ -1,3 +1,12 @@
+// Recupera il colore dal localStorage
+const coloreSalvato = localStorage.getItem("campoColor");
+
+// Se c'è un colore salvato, applicalo al campo
+if (coloreSalvato) {
+  document.getElementById("sezione-punti").style.backgroundColor =
+    coloreSalvato;
+}
+
 //Bottoni del campo
 const btnPlayer1 = document.querySelector(".btn-player1");
 const btnErrorPlayer1 = document.querySelector(".btn-erroreP1");
@@ -496,19 +505,22 @@ function startTieBreak() {
 
 // Funzione per terminare il tie-break
 function endTieBreak(winner) {
-  // isTieBreak = false;
   const matchSettings = JSON.parse(localStorage.getItem("matchSettings"));
 
-  // Usa il numero di set definiti nelle impostazioni della partita
-  if (winner === 1) {
-    incrementSet(1, matchSettings.setCount, matchSettings);
-  } else {
-    incrementSet(2, matchSettings.setCount, matchSettings);
-  }
-
+  // Mostra il punteggio finale del tie-break per 1 secondo
   updateTieBreakDisplay();
 
-  saveMatchState();
+  setTimeout(() => {
+    // Usa il numero di set definiti nelle impostazioni della partita
+    if (winner === 1) {
+      incrementSet(1, matchSettings.setCount, matchSettings);
+    } else {
+      incrementSet(2, matchSettings.setCount, matchSettings);
+    }
+
+    // Salva lo stato della partita
+    saveMatchState();
+  }, 500); // Ritardo di 1 secondo
 }
 
 // Funzione per verificare chi ha vinto il set
@@ -832,6 +844,9 @@ newMatch.addEventListener("click", () => {
   localStorage.removeItem("sets");
   localStorage.removeItem("winner");
   localStorage.removeItem("matchSettings");
+
+  // Resetta il colore salvato
+  localStorage.removeItem("campoColor");
 
   // 3. Cancella i video da IndexedDB
   deleteAllVideos(matchId);
