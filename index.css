@@ -77,41 +77,38 @@ form button {
 #colore-campo,
 #modalita-gioco {
   display: flex;
-  gap: 30px;
-  flex-wrap: wrap; /* Permette di andare a capo se necessario */
-  justify-content: center; /* Centra i contenuti */
-  width: 100%; /* Assicura che il contenitore usi tutta la larghezza */
-  max-width: 400px; /* Puoi aumentare se necessario */
-}
-
-#colore-campo input[type="radio"] {
-  margin-top: 18px;
-  width: 20px; /* Larghezza del radio */
-  height: 20px; /* Altezza del radio */
+  gap: 30px; /* Spazio tra le opzioni */
+  flex-wrap: wrap; /* Evita sovrapposizioni su schermi piccoli */
+  justify-content: center; /* Centra il contenuto */
+  width: 100%;
+  max-width: 400px; /* Evita che si allarghi troppo */
 }
 
 #colore-campo label,
 #modalita-gioco label {
-  position: relative;
   display: flex;
-  flex-direction: column; /* Allinea verticalmente */
-  align-items: center;
-  gap: 5px; /* Distanza tra radio e testo */
+  align-items: center; /* Allinea verticalmente */
+  gap: 8px; /* Spazio tra radio e testo */
+  position: relative;
+}
+
+input[type="radio"] {
+  width: 20px;
+  height: 20px;
 }
 
 .color-box {
   display: inline-block;
-  min-width: 50px;
-  min-height: 25px;
+  width: 50px;
+  height: 25px;
   border: 2px solid white;
   border-radius: 3px;
   box-sizing: border-box;
 }
 
-#modalita-gioco input[type="radio"] {
-  margin-top: 18px;
-  width: 20px; /* Larghezza del radio */
-  height: 20px; /* Altezza del radio */
+.mod-gioco {
+  font-size: 16px;
+  color: white;
 }
 
 .back-button {
