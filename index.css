@@ -74,41 +74,43 @@ form button {
   transition: background-color 0.3s ease;
 }
 
-#colore-campo,
-#modalita-gioco {
+#colore-campo {
   display: flex;
-  gap: 30px; /* Spazio tra le opzioni */
-  flex-wrap: wrap; /* Evita sovrapposizioni su schermi piccoli */
-  justify-content: center; /* Centra il contenuto */
-  width: 100%;
-  max-width: 400px; /* Evita che si allarghi troppo */
+  gap: 30px; /* Spaziatura tra i checkbox */
+  color: white;
 }
 
-#colore-campo label,
-#modalita-gioco label {
-  display: flex;
-  align-items: center; /* Allinea verticalmente */
-  gap: 8px; /* Spazio tra radio e testo */
-  position: relative;
+#colore-campo input[type="radio"] {
+  margin-top: 18px;
 }
 
-input[type="radio"] {
-  width: 20px;
-  height: 20px;
+#colore-campo label {
+  display: flex;
+  align-items: center; /* Allinea il testo verticalmente con il checkbox */
 }
 
 .color-box {
   display: inline-block;
-  width: 50px;
-  height: 25px;
+  min-width: 50px;
+  min-height: 25px;
   border: 2px solid white;
   border-radius: 3px;
   box-sizing: border-box;
 }
 
-.mod-gioco {
-  font-size: 16px;
+#modalita-gioco input[type="radio"] {
+  margin-top: 18px;
+}
+
+#modalita-gioco {
+  display: flex;
+  gap: 30px; /* Spaziatura tra i checkbox */
   color: white;
+}
+
+#modalita-gioco label {
+  display: flex;
+  align-items: center; /* Allinea il testo verticalmente con il checkbox */
 }
 
 .back-button {
