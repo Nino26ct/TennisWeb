@@ -87,14 +87,14 @@ form button {
 #colore-campo label,
 #modalita-gioco label {
   display: flex;
-  align-items: center; /* Allinea verticalmente */
+  /* align-items: center; Allinea verticalmente */
   gap: 8px; /* Spazio tra radio e testo */
   position: relative;
 }
 
 input[type="radio"] {
   width: 20px;
-  height: 20px;
+  height: 15px;
 }
 
 .color-box {
@@ -155,7 +155,7 @@ input[type="radio"] {
   width: 150px; /* Ogni bottone occupa metà della larghezza */
   box-shadow: none; /* Rimuove l'ombra */
   margin: 0; /* Rimuove margini */
-  margin-top: 85px;
+  margin-top: 60px;
   margin-left: 20px;
   margin-right: 20px;
 }
