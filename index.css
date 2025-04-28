@@ -155,7 +155,7 @@ input[type="radio"] {
   width: 150px; /* Ogni bottone occupa metà della larghezza */
   box-shadow: none; /* Rimuove l'ombra */
   margin: 0; /* Rimuove margini */
-  margin-top: 60px;
+  margin-top: 30px;
   margin-left: 20px;
   margin-right: 20px;
 }
