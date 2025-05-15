@@ -38,7 +38,7 @@ h2 {
 
 label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   text-align: left;
 }
 
@@ -80,7 +80,7 @@ form button {
   display: flex;
   gap: 30px; /* Spazio tra le opzioni */
   flex-wrap: wrap; /* Evita sovrapposizioni su schermi piccoli */
-  justify-content: center; /* Centra il contenuto */
+  /* justify-content: center; Centra il contenuto */
   width: 100%;
   max-width: 400px; /* Evita che si allarghi troppo */
 }
@@ -89,7 +89,7 @@ form button {
 #modalita-gioco label {
   display: flex;
   /* align-items: center; Allinea verticalmente */
-  gap: 8px; /* Spazio tra radio e testo */
+  gap: 2px; /* Spazio tra radio e testo */
   position: relative;
 }
 
